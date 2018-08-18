@@ -75,7 +75,8 @@ class StamperCamera extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
-    isRecording: false
+    isRecording: false,
+    videoURI: null
   };
 
   async componentWillMount() {
@@ -85,14 +86,17 @@ class StamperCamera extends React.Component {
   stopRecording = () => {
     this.camera.stopRecording();
     this.setState({ isRecording: false });
+
   }
-  recordVideo = () => {
+   recordVideo = async () => {
     if (this.camera) {
-      this.camera.recordAsync({
+      this.setState({ isRecording : true });
+      const videoURI = await this.camera.recordAsync({
         quality: Camera.Constants.VideoQuality['720p'],
         maxDuration: 8
       });
-      this.setState({ isRecording : true });
+      console.log(videoURI)
+      this.setState({ videoURI });
     }
   };
 
