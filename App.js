@@ -1,7 +1,7 @@
 import React from 'react'
 import Swiper from 'react-native-swiper'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera, Permissions } from 'expo';
+import { Camera, Permissions, Video } from 'expo';
 
 var styles = StyleSheet.create({
   container: {
@@ -20,6 +20,53 @@ class TitleText extends React.Component {
       <Text style={{ fontSize: 48, color: 'black' }}>
         {this.props.label}
       </Text>
+    )
+  }
+}
+
+class StamperVideo extends React.Component {
+  state = {
+    videoList: [
+      {
+        id:1,
+        url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+      },
+      {
+        id:2,
+        url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+      },
+      {
+        id:3,
+        url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+      }
+    ],
+    videoIndex: 0
+  }
+  render() {
+    return (
+      <Swiper
+        loop={false}
+        showsPagination={true}
+        index={0}>
+        {this.state.videoList.map(video => (
+          <View key={video.id} style={{
+            flex:1,
+            justifyContent: 'center',
+            alignItems: 'center',}}
+          >
+            <Video
+              source={{ uri: video.url }}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="cover"
+              shouldPlay
+              isLooping
+              style={{ width: '100%', height: '100%' }}
+            />
+          </View>
+        ))}
+      </Swiper>
     )
   }
 }
@@ -98,8 +145,12 @@ class App extends React.Component {
         loop={false}
         showsPagination={false}
         index={0}>
-        <View style={this.viewStyle()}>
-          <TitleText label="Videos" />
+        <View style={{
+          flex: 1,
+          backgroundColor: 'transparent',
+          flexDirection: 'row',
+        }}>
+          <StamperVideo />
         </View>
         <View style={this.cameraStyle()}>
           <StamperCamera />
