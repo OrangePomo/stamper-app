@@ -123,6 +123,23 @@ class StamperCamera extends React.Component {
     }
   }
 }
+
+class StamperMap extends React.Component {
+  render() {
+    return (
+      <MapView
+        style={{ width: "100%", height: "80%" }}
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
+    )
+  }
+}
+
 class App extends React.Component {
   viewStyle() {
     return {
@@ -159,7 +176,7 @@ class App extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',}}
             >
-              <Text>MAP</Text>
+              <StamperMap />
             </View>
             <StamperVideo />
           </Swiper>
