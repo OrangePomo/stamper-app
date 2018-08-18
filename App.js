@@ -1,7 +1,12 @@
 import React from 'react'
 import Swiper from 'react-native-swiper'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera, Permissions, Video, MapView } from 'expo';
+import { Location, Camera, Permissions, Video, MapView } from 'expo';
+
+const deltas = {
+  latitudeDelta: 0.0922,
+  longitudeDelta: 0.0421
+};
 
 var styles = StyleSheet.create({
   container: {
@@ -125,22 +130,43 @@ class StamperCamera extends React.Component {
 }
 
 class StamperMap extends React.Component {
+  componentWillMount() {
+    this.props.getLocationAsync();
+  }
+
   render() {
     return (
       <MapView
         style={{ width: "100%", height: "80%" }}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
+        region={this.props.region}
       />
     )
   }
 }
 
 class App extends React.Component {
+  state = {
+    region: null,
+    myStamps: []
+  };
+
+  getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied'
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    const region = {
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      ...deltas
+    };
+    await this.setState({ region });
+  }
+
   viewStyle() {
     return {
       flex: 1,
@@ -176,7 +202,7 @@ class App extends React.Component {
               justifyContent: 'center',
               alignItems: 'center',}}
             >
-              <StamperMap />
+              <StamperMap getLocationAsync={this.getLocationAsync} region={this.state.region} />
             </View>
             <StamperVideo />
           </Swiper>
