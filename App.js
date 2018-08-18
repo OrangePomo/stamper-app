@@ -1,7 +1,7 @@
 import React from 'react'
 import Swiper from 'react-native-swiper'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera, Permissions, Video } from 'expo';
+import { Camera, Permissions, Video, MapView } from 'expo';
 
 var styles = StyleSheet.create({
   container: {
@@ -150,7 +150,19 @@ class App extends React.Component {
           backgroundColor: 'transparent',
           flexDirection: 'row',
         }}>
-          <StamperVideo />
+          <Swiper
+            loop={false}
+            showsPagination={false}
+            index={1}>
+            <View key={0} style={{
+              flex:1,
+              justifyContent: 'center',
+              alignItems: 'center',}}
+            >
+              <Text>MAP</Text>
+            </View>
+            <StamperVideo />
+          </Swiper>
         </View>
         <View style={this.cameraStyle()}>
           <StamperCamera />
