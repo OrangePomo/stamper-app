@@ -2,6 +2,7 @@ import React from 'react'
 import Swiper from 'react-native-swiper'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Location, Camera, Permissions, Video, MapView } from 'expo';
+const Marker = MapView.Marker
 
 const deltas = {
   latitudeDelta: 0.0922,
@@ -139,7 +140,24 @@ class StamperMap extends React.Component {
       <MapView
         style={{ width: "100%", height: "80%" }}
         region={this.props.region}
-      />
+      >
+        <Marker
+          coordinate={{
+            latitude: 32.382482,
+            longitude: 120.604785
+          }}
+          title={"OrangePomo"}
+          description={"힝행홍"}
+        />
+        <Marker
+          coordinate={{
+            latitude: 32.385477,
+            longitude: 120.592145
+          }}
+          title={"랄랄"}
+          description={"꺄꺄"}
+        />
+      </MapView>
     )
   }
 }
