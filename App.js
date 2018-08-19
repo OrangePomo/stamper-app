@@ -82,13 +82,27 @@ class StamperCamera extends React.Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
+    isRecording: false
   };
 
   async componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
   }
-  
+  stopRecording = () => {
+    this.camera.stopRecording();
+    this.setState({ isRecording: false });
+  }
+  recordVideo = () => {
+    if (this.camera) {
+      this.camera.recordAsync({
+        quality: Camera.Constants.VideoQuality['720p'],
+        maxDuration: 8
+      });
+      this.setState({ isRecording : true });
+    }
+  };
+
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -98,17 +112,51 @@ class StamperCamera extends React.Component {
     } else {
       return (
         <View style={{ flex: 1 }}>
-          <Camera style={{ flex: 1 }} type={this.state.type}>
+          <Camera
+            style={{ flex: 1 }}
+            type={this.state.type}
+            ref={ref => {
+              this.camera = ref;
+            }}
+          >
             <View
               style={{
                 flex: 1,
                 backgroundColor: 'transparent',
                 flexDirection: 'row',
               }}>
+              {this.state.isRecording ? 
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    alignSelf: 'flex-end',
+                    alignItems: 'center',
+                  }}
+                  onPress={this.stopRecording}>
+                  <Text
+                    style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
+                    {' '}중지{' '}
+                  </Text>
+                </TouchableOpacity>
+                :
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    alignSelf: 'flex-end',
+                    alignItems: 'center',
+                  }}
+                  onPress={this.recordVideo}>
+                  <Text
+                    style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
+                    {' '}녹화{' '}
+                  </Text>
+                </TouchableOpacity>
+              }
+
               <TouchableOpacity
                 style={{
-                  flex: 0.1,
-                  alignSelf: 'flex-end',
+                  flex: 1,
+                  alignSelf: 'flex-start',
                   alignItems: 'center',
                 }}
                 onPress={() => {
@@ -123,6 +171,7 @@ class StamperCamera extends React.Component {
                   {' '}Flip{' '}
                 </Text>
               </TouchableOpacity>
+              }
             </View>
           </Camera>
         </View>
