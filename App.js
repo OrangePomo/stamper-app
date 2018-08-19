@@ -104,67 +104,74 @@ class StamperCamera extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, width: '100%', height: '100%' }}>
           <Camera
-            style={{ flex: 1 }}
+            style={{ flex: 1, height: '100%' }}
             type={this.state.type}
             ref={ref => {
               this.camera = ref;
             }}
           >
             <View
-              style={{
-                flex: 1,
-                backgroundColor: 'transparent',
+            style={{
+              flex: 1,
+              backgroundColor: 'transparent',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              width: '100%',
+              height: '100%'
+            }}>
+              <View style={{
+                
                 flexDirection: 'row',
+                justifyContent: 'space-between'
               }}>
-              {this.state.isRecording ? 
+                <TouchableOpacity
+                  style={{
+                    flex: 1
+                  }}
+                  onPress={() => {
+                    this.setState({
+                      type: this.state.type === Camera.Constants.Type.back
+                        ? Camera.Constants.Type.front
+                        : Camera.Constants.Type.back,
+                    });
+                  }}>
+                  <Text
+                    style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
+                    {' '}Flip{' '}
+                  </Text>
+                </TouchableOpacity>
+                {this.state.isRecording ? 
+                  <View style={{
+                    width: 35, height: 35, borderRadius: 50, flex: 1,
+                    borderColor: '#ff4869', borderWidth: 10}}
+                    onPress={this.stopRecording}></View>
+                  :
+                  <View style={{
+                    width: 35, height: 35, borderRadius: 50,
+                    borderColor: 'white', borderWidth: 10}}
+                    onPress={this.recordVideo}></View>
+                } 
                 <TouchableOpacity
                   style={{
                     flex: 1,
-                    alignSelf: 'flex-end',
-                    alignItems: 'center',
                   }}
-                  onPress={this.stopRecording}>
-                  <Text
-                    style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
-                    {' '}중지{' '}
-                  </Text>
+                  onPress={() => {
+                    this.setState({
+                      type: this.state.type === Camera.Constants.Type.back
+                        ? Camera.Constants.Type.front
+                        : Camera.Constants.Type.back,
+                    });
+                  }}>
+                  <View style={{flex:1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <Text
+                      style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
+                      {' '}Flip{' '}
+                    </Text>
+                  </View>
                 </TouchableOpacity>
-                :
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    alignSelf: 'flex-end',
-                    alignItems: 'center',
-                  }}
-                  onPress={this.recordVideo}>
-                  <Text
-                    style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
-                    {' '}녹화{' '}
-                  </Text>
-                </TouchableOpacity>
-              }
-
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  alignSelf: 'flex-start',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  this.setState({
-                    type: this.state.type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back,
-                  });
-                }}>
-                <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
-                  {' '}Flip{' '}
-                </Text>
-              </TouchableOpacity>
-              }
+              </View>
             </View>
           </Camera>
         </View>
@@ -183,7 +190,9 @@ class App extends React.Component {
   }
   cameraStyle() {
     return {
-      flex: 1
+      flex: 1,
+      width: '100%',
+      height: '100%'
     }
   }
 
@@ -198,6 +207,7 @@ class App extends React.Component {
           flex: 1,
           backgroundColor: 'transparent',
           flexDirection: 'row',
+          height: '100%'
         }}>
           <StamperVideo />
         </View>
