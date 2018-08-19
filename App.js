@@ -1,7 +1,8 @@
 import React from 'react'
 import Swiper from 'react-native-swiper'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Camera, Permissions, Video } from 'expo';
+import { Camera, Permissions, Video, FileSystem } from 'expo';
+import { Axios } from 'axios'
 
 var styles = StyleSheet.create({
   container: {
@@ -88,6 +89,35 @@ class StamperCamera extends React.Component {
     this.setState({ isRecording: false });
 
   }
+  uploadVideo(){
+    let formData = new FormData();
+    let videoURI = this.state.videoURI
+    let payload = {'value':videoURI,'uid':'abcde','latitude':102.12,'longitude':33.21};
+    // let payload = {videoFile:{'value':videoURI},'uid':'abcde','latitude':102.12,'longitude':33.21}
+    formData.append('data',payload)
+    // formData.append('videoFile',{'value':videoURI,'uid':'abcde','latitude':'102.12','longitude':'33.21'});
+    // formData.append('value1', formData.get('videoFile'))
+    // formData.append('uid', 'abcde');
+    // formData.append('latitude', '102.12');
+    // formData.append('longitude', '33.21');
+
+    console.log(formData)
+
+    try{
+      fetch('http://52.79.250.237:3000/video', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: formData,
+      success: function(data){
+        console.log(data.result)
+      }
+    });
+    } catch (e) {
+      console.log(e) 
+    }
+  }
    recordVideo = async () => {
     if (this.camera) {
       this.setState({ isRecording : true });
@@ -95,11 +125,28 @@ class StamperCamera extends React.Component {
         quality: Camera.Constants.VideoQuality['720p'],
         maxDuration: 8
       });
-      console.log(videoURI)
+      console.log("qqqq", videoURI)
       this.setState({ videoURI });
-    }
-  };
+      this.uploadVideo()
+      // axios 사용해서 서버에 동영상 업로드
+    //  fetch(this.videoURI, {
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //       firstParam: 'yourValue',
+    //       secondParam: 'yourOtherValue',
+    //     }), 
+    // });
 
+    
+
+    //get method로 확인
+
+  }
+}
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
