@@ -173,14 +173,7 @@ class StamperCamera extends React.Component {
   }
 }
 class App extends React.Component {
-  viewStyle() {
-    return {
-      flex: 1,
-      backgroundColor: 'transparent',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-  }
+  state = { isLoggedIn: true };
   cameraStyle() {
     return {
       flex: 1
@@ -188,7 +181,7 @@ class App extends React.Component {
   }
 
   render() {
-    return (
+    return this.state.isLoggedIn ? (
       <Swiper
         horizontal={false}
         loop={false}
@@ -205,6 +198,25 @@ class App extends React.Component {
           <StamperCamera />
         </View>
       </Swiper> 
+    ) : (
+      <View style={{backgroundColor: 'white'}}>
+        <View style={{backgroundColor: '#ff4869', height: '40%', width: '100%'}}>
+          <View style={{alignItems: 'center', width: '100%'}}>
+            <Text style={{fontSize: 30, color: 'white', paddingTop: '30%', justifyContent: 'center'}}>
+              Stamper
+            </Text>
+          </View>
+        </View>
+        <View style={{alignItems: 'center', width: '60%', height: '20%', alignSelf: 'center',
+          borderRadius: 50, backgroundColor: 'white', shadowColor: 'black',
+          shadowOffset: {width: 0, height: 3}, shadowRadius: 5, shadowOpacity: 0.5, display: 'flex', flexDirection:'row'}}>
+          <View style={{alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
+            <Text style={{color: 'black', alignSelf: 'center'}}> 
+              Login via wechat 
+            </Text>
+          </View>
+        </View>
+      </View>
     )
   }
 }
