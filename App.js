@@ -114,7 +114,7 @@ class StamperVideo extends React.Component {
               style={{display: "flex"}}
               color='white'/>
           </View>
-          <Text color="white">900m</Text>
+          <Text style={{color: "white"}}>900m</Text>
         </View>
         
       </View>
