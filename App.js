@@ -33,14 +33,18 @@ class TitleText extends React.Component {
 
 class StamperVideo extends React.Component {
   state = {
+    isHeartFull: false, 
     videoList: [
       {
         id:1,
-        url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+        // url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+        // url: "http://52.79.250.237:3000/video/straming/4d18189705fd833075fbafe545e0f956.MOV"
+        url: "http://52.79.250.237:3000/vd/4d18189705fd833075fbafe545e0f956.MOV"
       },
       {
         id:2,
-        url: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"
+        // url: "http://52.79.250.237:3000/video/straming/0b06a33850ae5286104eb2870355b88b.mov"
+        url: "http://52.79.250.237:3000/vd/0b06a33850ae5286104eb2870355b88b.mov"
       },
       {
         id:3,
@@ -51,29 +55,69 @@ class StamperVideo extends React.Component {
   }
   render() {
     return (
-      <Swiper
-        loop={false}
-        showsPagination={true}
-        index={0}>
-        {this.state.videoList.map(video => (
-          <View key={video.id} style={{
-            flex:1,
-            justifyContent: 'center',
-            alignItems: 'center',}}
-          >
-            <Video
-              source={{ uri: video.url }}
-              rate={1.0}
-              volume={1.0}
-              isMuted={false}
-              resizeMode="cover"
-              shouldPlay
-              isLooping
-              style={{ width: '100%', height: '80%' }}
+      <View style={{flex:1}}
+      >
+      <View style={{position: "relative", top: "6%", display: "flex", flexDirection: 'row', justifyContent: "space-between", zIndex: 1500}}>
+        <Icon
+          name='map-o'
+          type='font-awesome'
+          style={{display: "flex", marginLeft: "3%"}}
+          color='white'/>
+        <Icon
+          name='more-vert'
+          type='MaterialIcons'
+          style={{display: "flex"}}
+          color='white'/>
+    </View>
+        <Swiper
+          loop={false}
+          showsPagination={true}
+          index={0}>
+          {this.state.videoList.map(video => (
+            <View key={video.id} style={{
+              position: "relative",
+              flex:1,
+              justifyContent: 'flex-end',
+              alignItems: 'center',}}
+            >
+              <Video
+                source={{ uri: video.url }}
+                rate={1.0}
+                volume={1.0}
+                isMuted={false}
+                // resizeMode="cover"
+                resizeMode={Expo.Video.RESIZE_MODE_COVER}
+                shouldPlay
+                isLooping
+                style={{ width: '100%', height: '100%' }}
+              />
+            </View>
+          ))}
+        </Swiper>
+        <View style={{position: "absolute", display: "flex", width: "100%", bottom: "6%", flexDirection: 'row', justifyContent: "space-between", alignContent: "center", zIndex: 1500, padding: 30}}>
+          <Icon
+            name={this.state.isHeartFull? "heart" : "heart-o"}
+            type='font-awesome'
+            style={{position: "absolute", left: "5rem"}}
+            color={this.state.isHeartFull? "#EC586C" : "white"}
+            onPress={()=>this.setState({isHeartFull: !this.state.isHeartFull})}
             />
+          <View>
+            <Icon
+              name='video-camera'
+              type='font-awesome'
+              style={{display: "flex"}}
+              color='white'/>
+            <Icon
+              name='chevron-small-down'
+              type='entypo'
+              style={{display: "flex"}}
+              color='white'/>
           </View>
-        ))}
-      </Swiper>
+          <Text color="white">900m</Text>
+        </View>
+        
+      </View>
     )
   }
 }
@@ -222,8 +266,8 @@ class StamperMap extends React.Component {
           />
           <Icon
             raised
-            name='gear'
-            type='font-awesome'
+            name='gps-fixed'
+            type='MaterialIcons'
             color='#EC586C'
             style={{margin: "10px"}}
             onPress={()=>this.mapview.animateToRegion(this.props.region,500)}
@@ -296,7 +340,7 @@ class App extends React.Component {
             showsPagination={false}
             yourNewPageIndex={this.state.newIndex}
             ref={(swiper) => {this.swiper = swiper;}}
-            index={0}>
+            index={1}>
             <View key={0} style={{
               flex:1
             }}>
