@@ -2,7 +2,7 @@ import React from 'react'
 import Swiper from 'react-native-swiper'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions, Video } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 
 var styles = StyleSheet.create({
   container: {
@@ -123,7 +123,7 @@ class StamperCamera extends React.Component {
               height: '100%'
             }}>
               <View style={{
-                paddingBottom: 30,
+                padding: 30,
                 flexDirection: 'row',
                 justifyContent: 'space-between'
               }}>
@@ -141,15 +141,9 @@ class StamperCamera extends React.Component {
                   <Ionicons name="ios-flash-outline" size={32} color="white" />
                 </TouchableOpacity>
                 {this.state.isRecording ? 
-                  <View style={{
-                    width: 35, height: 35, borderRadius: 50, flex: 1,
-                    borderColor: '#ff4869', borderWidth: 10}}
-                    onPress={this.stopRecording}></View>
+                  <Entypo name="circle" size={32} color="white" onPress={this.stopRecording} />
                   :
-                  <View style={{
-                    width: 35, height: 35, borderRadius: 50,
-                    borderColor: 'white', borderWidth: 10}}
-                    onPress={this.recordVideo}></View>
+                  <Entypo name="circle" size={32} color="white" onPress={this.recordVideo} />
                 } 
                 <TouchableOpacity
                   style={{
