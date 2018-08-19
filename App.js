@@ -2,6 +2,7 @@ import React from 'react'
 import Swiper from 'react-native-swiper'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Camera, Permissions, Video } from 'expo';
+import { Ionicons } from '@expo/vector-icons';
 
 var styles = StyleSheet.create({
   container: {
@@ -122,7 +123,7 @@ class StamperCamera extends React.Component {
               height: '100%'
             }}>
               <View style={{
-                
+                paddingBottom: 30,
                 flexDirection: 'row',
                 justifyContent: 'space-between'
               }}>
@@ -137,10 +138,7 @@ class StamperCamera extends React.Component {
                         : Camera.Constants.Type.back,
                     });
                   }}>
-                  <Text
-                    style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
-                    {' '}Flip{' '}
-                  </Text>
+                  <Ionicons name="ios-flash-outline" size={32} color="white" />
                 </TouchableOpacity>
                 {this.state.isRecording ? 
                   <View style={{
@@ -165,10 +163,7 @@ class StamperCamera extends React.Component {
                     });
                   }}>
                   <View style={{flex:1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-                    <Text
-                      style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
-                      {' '}Flip{' '}
-                    </Text>
+                    <Ionicons name="md-sync" size={32} color="white" />
                   </View>
                 </TouchableOpacity>
               </View>
