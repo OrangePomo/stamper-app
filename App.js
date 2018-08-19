@@ -1,9 +1,9 @@
 import React from 'react'
 import Swiper from 'react-native-swiper'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-
 import { Location, Camera, Permissions, Video, MapView } from 'expo';
 import { Header, Icon } from 'react-native-elements';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 const Marker = MapView.Marker
 
 const deltas = {
@@ -206,67 +206,62 @@ class StamperCamera extends React.Component {
       return <Text>No access to camera</Text>;
     } else {
       return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, width: '100%', height: '100%' }}>
           <Camera
-            style={{ flex: 1 }}
+            style={{ flex: 1, height: '100%' }}
             type={this.state.type}
             ref={ref => {
               this.camera = ref;
             }}
           >
             <View
-              style={{
-                flex: 1,
-                backgroundColor: 'transparent',
+            style={{
+              flex: 1,
+              backgroundColor: 'transparent',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              width: '100%',
+              height: '100%'
+            }}>
+              <View style={{
+                padding: 30,
                 flexDirection: 'row',
+                justifyContent: 'space-between'
               }}>
-              {this.state.isRecording ? 
+                <TouchableOpacity
+                  style={{
+                    flex: 1
+                  }}
+                  onPress={() => {
+                    this.setState({
+                      type: this.state.type === Camera.Constants.Type.back
+                        ? Camera.Constants.Type.front
+                        : Camera.Constants.Type.back,
+                    });
+                  }}>
+                  <Ionicons name="ios-flash-outline" size={32} color="white" />
+                </TouchableOpacity>
+                {this.state.isRecording ? 
+                  <Entypo name="circle" size={32} color="white" onPress={this.stopRecording} />
+                  :
+                  <Entypo name="circle" size={32} color="white" onPress={this.recordVideo} />
+                } 
                 <TouchableOpacity
                   style={{
                     flex: 1,
-                    alignSelf: 'flex-end',
-                    alignItems: 'center',
                   }}
-                  onPress={this.stopRecording}>
-                  <Text
-                    style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
-                    {' '}중지{' '}
-                  </Text>
+                  onPress={() => {
+                    this.setState({
+                      type: this.state.type === Camera.Constants.Type.back
+                        ? Camera.Constants.Type.front
+                        : Camera.Constants.Type.back,
+                    });
+                  }}>
+                  <View style={{flex:1, flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <Ionicons name="md-sync" size={32} color="white" />
+                  </View>
                 </TouchableOpacity>
-                :
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    alignSelf: 'flex-end',
-                    alignItems: 'center',
-                  }}
-                  onPress={this.recordVideo}>
-                  <Text
-                    style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
-                    {' '}녹화{' '}
-                  </Text>
-                </TouchableOpacity>
-              }
-
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  alignSelf: 'flex-start',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  this.setState({
-                    type: this.state.type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back,
-                  });
-                }}>
-                <Text
-                  style={{ fontSize: 18, marginBottom: 10, color: 'black' }}>
-                  {' '}Flip{' '}
-                </Text>
-              </TouchableOpacity>
-              }
+              </View>
             </View>
           </Camera>
         </View>
@@ -367,7 +362,9 @@ class App extends React.Component {
   }
   cameraStyle() {
     return {
-      flex: 1
+      flex: 1,
+      width: '100%',
+      height: '100%'
     }
   }
   // handleSwipe() {
@@ -385,6 +382,7 @@ class App extends React.Component {
           flex: 1,
           backgroundColor: 'transparent',
           flexDirection: 'row',
+          height: '100%'
         }}>
           <Swiper
             loop={false}
