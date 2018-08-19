@@ -173,7 +173,6 @@ class StamperMap extends React.Component {
           />
           <Icon
             raised
-            // name='gps-fixed'
             name='gear'
             type='font-awesome'
             color='#EC586C'
